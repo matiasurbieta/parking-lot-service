@@ -24,6 +24,10 @@ public class ParkingLot implements Serializable {
     @ManyToOne
     private Vehicle vehicle;
 
+    @Version
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version=(long) 0;
+
     // ... additional members, often include @OneToMany mappings
 
      ParkingLot() {

@@ -15,145 +15,139 @@ import com.charlie.challenge.urbieta.model.ParkingLot;
 import com.charlie.challenge.urbieta.model.ParkingLotType;
 import com.charlie.challenge.urbieta.model.Vehicle;
 import com.charlie.challenge.urbieta.model.VehicleType;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ParkingServiceTests {
-    
+
     @Autowired
     ParkingLotService parkingLotService;
-	@Test
-    public void basicParkingLotCreation(){
+
+    @Test
+    public void basicParkingLotCreation() {
         try {
             parkingLotService.save(null);
             fail();
-            
+
         } catch (Exception e) {
-           assertTrue(e.getMessage().contains("must not be null"));
+            assertTrue(e.getMessage().contains("must not be null"));
         }
 
         try {
-            parkingLotService.save(new ParkingLot(null,null));
+            parkingLotService.save(new ParkingLot(null, null));
             fail();
-            
+
         } catch (Exception e) {
-           assertTrue(e.getMessage().contains("must not be null"));
+            assertTrue(e.getMessage().contains("must not be null"));
         }
 
-
-
         try {
-            parkingLotService.save(new ParkingLot((long) 12,ParkingLotType.Compact));
-            
+            parkingLotService.save(new ParkingLot((long) 12, ParkingLotType.Compact));
+
         } catch (Exception e) {
-            fail();
+            fail(e.getMessage());
         }
     }
-
 
     @Test
     @DirtiesContext(methodMode = MethodMode.BEFORE_METHOD)
 
-    public void park_car(){
-        Vehicle car=new Vehicle("123", VehicleType.Car);
+    public void park_car() {
+        Vehicle car = new Vehicle("123", VehicleType.Car);
         try {
             parkingLotService.findLotAndPark(car);
-            assertEquals(24,parkingLotService.countAvailable());
+            assertEquals(24, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
-           fail();
-        }
+            fail(e.getMessage());
 
+        }
 
         try {
             parkingLotService.findLotAndPark(car);
             fail();
         } catch (ParkingLotException e) {
-            assertEquals(24,parkingLotService.countAvailable());
+            assertEquals(24, parkingLotService.countAvailable());
 
         }
 
         try {
             parkingLotService.releaseLots(car.getPlate());
-            assertEquals(25,parkingLotService.countAvailable());
+            assertEquals(25, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
-            fail();
+            fail(e.getMessage());
 
         }
-        
-        
-    
+
     }
+
     @Test
     @DirtiesContext(methodMode = MethodMode.BEFORE_METHOD)
 
-    public void park_motocycle(){
-        Vehicle moto=new Vehicle("123", VehicleType.Motocycle);
+    public void park_motocycle() {
+        Vehicle moto = new Vehicle("123", VehicleType.Motocycle);
         try {
             parkingLotService.findLotAndPark(moto);
-            assertEquals(24,parkingLotService.countAvailable());
+            assertEquals(24, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
-           fail();
+            fail(e.getMessage());
+
         }
 
         try {
             parkingLotService.findLotAndPark(moto);
             fail();
         } catch (ParkingLotException e) {
-            assertEquals(24,parkingLotService.countAvailable());
+            assertEquals(24, parkingLotService.countAvailable());
 
         }
 
         try {
             parkingLotService.releaseLots(moto.getPlate());
-            assertEquals(25,parkingLotService.countAvailable());
+            assertEquals(25, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
-            fail();
+            fail(e.getMessage());
 
         }
-        
-    
+
     }
 
     @Test
     @DirtiesContext(methodMode = MethodMode.BEFORE_METHOD)
 
-    public void park_van(){
-        //save one van and check if the number of lots is reduced
+    public void park_van() {
+        // save one van and check if the number of lots is reduced
         try {
             parkingLotService.findLotAndPark(new Vehicle("van123", VehicleType.Van));
-            assertEquals(22,parkingLotService.countAvailable());
+            assertEquals(22, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
-           fail();
+            fail();
         }
         // save 2 additional vans
         try {
             parkingLotService.findLotAndPark(new Vehicle("van1", VehicleType.Van));
             parkingLotService.findLotAndPark(new Vehicle("van2", VehicleType.Van));
 
-            assertEquals(16,parkingLotService.countAvailable());
+            assertEquals(16, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
-           fail();
+            fail();
         }
 
-
-
-         // save 1 van but should fail because there are no enough lots
-         try {
+        // save 1 van but should fail because there are no enough lots
+        try {
             parkingLotService.findLotAndPark(new Vehicle("van3", VehicleType.Van));
 
             fail();
         } catch (ParkingLotException e) {
         }
-        
 
         try {
             parkingLotService.releaseLots("van2");
-            assertEquals(19,parkingLotService.countAvailable());
+            assertEquals(19, parkingLotService.countAvailable());
         } catch (ParkingLotException e) {
             fail();
 
         }
-    
+
     }
 
-    
 }
