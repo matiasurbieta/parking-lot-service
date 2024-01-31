@@ -48,8 +48,7 @@ Then run sonnar on the source code
 
 `./gradlew sonar`
 
-Finally you can check the project health at:
-`[http://localhost:9000/](http://localhost:9000/dashboard?id=assessment%3Aparking-lot-service)`
+Finally you can check the project health at [http://localhost:9000/](http://localhost:9000/dashboard?id=assessment%3Aparking-lot-service).
 
 using `admin` and `newAdminPassword` as credentials
 
