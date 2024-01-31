@@ -1,13 +1,14 @@
-package assessment.parkinglot;
+package com.charlie.challenge.urbieta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ParkingLotServiceApplication {
+public class ServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ParkingLotServiceApplication.class, args);
+		SpringApplication.run(ServiceApplication.class, args);
 	}
+ 
 
 }
