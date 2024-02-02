@@ -80,7 +80,7 @@ public class ParkingLotService {
      * @throws ParkingLotException
      */
 
-    private boolean parkVehicle(@Valid @NotNull Vehicle vehicle, ParkingLot pLot) throws ParkingLotException {
+    boolean parkVehicle(@Valid @NotNull Vehicle vehicle, ParkingLot pLot) throws ParkingLotException {
         
         if (pLot.getVehicle() != null) {
             throw new ParkingLotException("Parking lot is already in use by:" + pLot.getVehicle().getPlate());
